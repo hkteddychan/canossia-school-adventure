@@ -184,6 +184,9 @@ function showScene(i){
   sc.choices.forEach(ch0 => {
     const b = el('button','btn ' + (ch0.good?'study':'playc'), ch0.t);
     b.onclick = () => {
+      if (ch.dataset.locked) return;
+      ch.dataset.locked = '1';
+      ch.querySelectorAll('.btn').forEach(x => x.disabled = true);
       S.aHappiness = Math.max(0, Math.min(100, S.aHappiness + ch0.dh));
       S.score += ch0.ds;
       S.happy = S.aHappiness; updateStats();
@@ -191,10 +194,12 @@ function showScene(i){
       ch.style.display='none';
       const f = feedback(ch0.good, ch0.react, ch0.learn, (ch0.dh>=0?'+':'')+ch0.dh+' happiness  '+(ch0.ds? '+'+ch0.ds+' stars':''));
       screen.appendChild(f);
-      const goNext = () => i < STORY.length-1 ? showScene(i+1) : storyEnding();
-      screen.appendChild(el('div','hint','Next…'));
-      screen.scrollTop = screen.scrollHeight;
-      setTimeout(goNext, 1400);
+      if (!window.__nextTimer) {
+        const goNext = () => { window.__nextTimer = null; i < STORY.length-1 ? showScene(i+1) : storyEnding(); };
+        screen.appendChild(el('div','hint','Next…'));
+        screen.scrollTop = screen.scrollHeight;
+        window.__nextTimer = setTimeout(goNext, 1400);
+      }
     };
     ch.appendChild(b);
   });
@@ -273,12 +278,15 @@ function renderQuestion(){
         ok ? 'Great English! Keep climbing!' : 'Do not worry — every mistake teaches us something.',
         ok ? '+10 stars' : '-6 happiness');
       screen.appendChild(f);
-      screen.appendChild(el('div','hint','Next…'));
-      screen.scrollTop = screen.scrollHeight;
-      setTimeout(() => {
-        S.idx++;
-        if (S.idx >= total){ climbEnding(); } else { renderQuestion(); }
-      }, 1400);
+      if (!window.__nextTimer) {
+        screen.appendChild(el('div','hint','Next…'));
+        screen.scrollTop = screen.scrollHeight;
+        window.__nextTimer = setTimeout(() => {
+          window.__nextTimer = null;
+          S.idx++;
+          if (S.idx >= total){ climbEnding(); } else { renderQuestion(); }
+        }, 1400);
+      }
     };
     opts.appendChild(b);
   });
@@ -348,6 +356,9 @@ function renderPlan(){
   PLAN_CARDS.forEach(card => {
     const b = el('button','btn ' + (card.study ? 'study' : 'playc'), card.label + (card.note ? ' <small>'+card.note+'</small>' : ''));
     b.onclick = () => {
+      if (ch.dataset.locked) return;
+      ch.dataset.locked = '1';
+      ch.querySelectorAll('.btn').forEach(x => x.disabled = true);
       S.cCards.push(card.id);
       const studyCount = S.cCards.filter(x => PLAN_CARDS.find(p=>p.id===x).study).length;
       S.happy = Math.max(0, Math.min(100, studyCount * 20));
