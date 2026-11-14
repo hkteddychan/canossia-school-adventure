@@ -1,6 +1,15 @@
 'use strict';
 const $ = (sel, root=document) => root.querySelector(sel);
-const el = (tag, cls, txt) => { const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
+const el = (tag, cls, txt) => {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (txt != null) {
+    if (Array.isArray(txt)) { txt.forEach(t => e.append(t)); }
+    else if (txt instanceof Node) { e.append(txt); }
+    else { e.textContent = txt; }
+  }
+  return e;
+};
 const h = (html) => { const d=document.createElement('div'); d.innerHTML=html; return d; };
 
 const S = { happy:50, score:0, mode:null, idx:0, day:1, aHappiness:50, aKnowledge:50, cCards:[] };
@@ -182,10 +191,10 @@ function showScene(i){
       ch.style.display='none';
       const f = feedback(ch0.good, ch0.react, ch0.learn, (ch0.dh>=0?'+':'')+ch0.dh+' happiness  '+(ch0.ds? '+'+ch0.ds+' stars':''));
       screen.appendChild(f);
-      const nx = el('button','btn finish', i < STORY.length-1 ? 'NEXT ▶' : 'SEE MY EXAM RESULT 🎉');
-      nx.onclick = () => i < STORY.length-1 ? showScene(i+1) : storyEnding();
-      screen.appendChild(nx);
+      const goNext = () => i < STORY.length-1 ? showScene(i+1) : storyEnding();
+      screen.appendChild(el('div','hint','Next…'));
       screen.scrollTop = screen.scrollHeight;
+      setTimeout(goNext, 1400);
     };
     ch.appendChild(b);
   });
@@ -264,13 +273,12 @@ function renderQuestion(){
         ok ? 'Great English! Keep climbing!' : 'Do not worry — every mistake teaches us something.',
         ok ? '+10 stars' : '-6 happiness');
       screen.appendChild(f);
-      const nx = el('button','btn finish', S.idx < total-1 ? 'NEXT QUESTION ▶' : 'CLIMB TO THE TOP! 🏆');
-      nx.onclick = () => {
+      screen.appendChild(el('div','hint','Next…'));
+      screen.scrollTop = screen.scrollHeight;
+      setTimeout(() => {
         S.idx++;
         if (S.idx >= total){ climbEnding(); } else { renderQuestion(); }
-      };
-      screen.appendChild(nx);
-      screen.scrollTop = screen.scrollHeight;
+      }, 1400);
     };
     opts.appendChild(b);
   });
@@ -346,7 +354,11 @@ function renderPlan(){
       S.score = studyCount * 10;
       updateStats();
       window.__lastPlan = { day: S.day, pick: card.id, studyCount };
-      if (S.day < 5){ S.day++; renderPlan(); } else { planEnding(); }
+      if (S.day < 5){
+        ch.style.pointerEvents = 'none';
+        b.classList.add('picked');
+        setTimeout(() => { S.day++; renderPlan(); }, 900);
+      } else { setTimeout(planEnding, 900); }
     };
     ch.appendChild(b);
   });
