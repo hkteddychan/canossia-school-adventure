@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>天神嘉諾撒學習樂園 Canossa Learning Park 🎒</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body { height:100%; font-family:'Comic Sans MS','Segoe UI',sans-serif; background:#fdf6e3; }
+body { display:flex; flex-direction:column; height:100dvh; overflow:hidden;
+  background:linear-gradient(180deg,#fff8e7 0%,#fdf6e3 60%,#f5e6c8 100%); }
+
+#topbar { flex-shrink:0; display:flex; align-items:center; justify-content:space-between; padding:8px 12px; background:#1a5c9e; color:#fff; font-weight:bold; }
+#topbar .brand { font-size:.98em; text-shadow:1px 1px 2px rgba(0,0,0,.3); }
+@media (max-width:420px){ #topbar .brand{font-size:.85em} #topbar{padding:7px 9px} }
+#topbar .right { display:flex; gap:8px; align-items:center; }
+#topbar .stats span { background:rgba(255,255,255,.22); padding:3px 9px; border-radius:12px; font-size:.92em; white-space:nowrap; }
+#langbtn { background:#fff; color:#1a5c9e; border:none; border-radius:12px; padding:5px 10px; font-weight:bold; font-family:inherit; cursor:pointer; font-size:.92em; white-space:nowrap; flex-shrink:0; }
+
+#screen { flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:12px; display:flex; flex-direction:column; align-items:center; }
+
+.card { background:#fff; border:3px solid #f2c94c; border-radius:20px; padding:14px; width:100%; max-width:540px; box-shadow:0 4px 14px rgba(0,0,0,.08); margin-bottom:12px; }
+.card h2 { color:#e76f51; font-size:1.18em; margin-bottom:6px; }
+.card h3 { color:#2a9d8f; font-size:1.05em; margin:8px 0 4px; }
+.card p, .card .story { color:#444; font-size:1.0em; line-height:1.5; }
+.card .story { background:#fff9ef; border-radius:12px; padding:9px 12px; margin-bottom:9px; }
+.card .story b { color:#e76f51; }
+.mascot { font-size:.93em; background:#e8f6f3; border:2px dashed #2a9d8f; border-radius:12px; padding:7px 11px; margin-bottom:9px; color:#1d6a5e; }
+
+.imgwrap { width:100%; border-radius:14px; overflow:hidden; margin-bottom:9px; background:#fdf6e3; }
+.imgwrap img { width:100%; display:block; }
+
+.btn { border:none; border-radius:16px; padding:12px 16px; font-size:1.04em; font-weight:bold; font-family:inherit; cursor:pointer; color:#fff; text-align:left; transition:transform .08s, box-shadow .08s; width:100%; box-shadow:0 3px 0 rgba(0,0,0,.15); }
+.btn:active { transform:scale(.97); box-shadow:0 1px 0 rgba(0,0,0,.15); }
+.btn:disabled { opacity:.6; cursor:default; }
+.btn.blue { background:#4a90d9; }
+.btn.orange { background:#f4a261; }
+.btn.green { background:#2a9d8f; }
+.btn.purple { background:#8e7cc3; }
+.btn.red { background:#e0527a; }
+.btn small { display:block; font-weight:normal; font-size:.82em; opacity:.92; }
+
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:540px; margin-bottom:10px; }
+.tile { border:none; border-radius:18px; padding:16px 10px; font-family:inherit; font-weight:bold; cursor:pointer; color:#fff; text-align:center; transition:transform .1s; box-shadow:0 3px 8px rgba(0,0,0,.12); }
+.tile:active { transform:scale(.95); }
+.tile .big { font-size:1.9em; display:block; margin-bottom:4px; }
+.tile .t { font-size:1em; }
+.tile .s { font-size:.78em; font-weight:normal; opacity:.9; display:block; margin-top:2px; }
+.t-blue { background:linear-gradient(135deg,#4a90d9,#2a6fb5); }
+.t-orange { background:linear-gradient(135deg,#f4a261,#e07b39); }
+.t-green { background:linear-gradient(135deg,#2a9d8f,#1d6a5e); }
+.t-purple { background:linear-gradient(135deg,#8e7cc3,#6a55a0); }
+.t-red { background:linear-gradient(135deg,#e0527a,#c04060); }
+.t-teal { background:linear-gradient(135deg,#38b2a3,#2a8a7d); }
+
+.chips { display:flex; flex-wrap:wrap; gap:8px; width:100%; max-width:540px; margin-bottom:10px; }
+.chip { border:2px solid #d9cfa8; background:#fffdf7; border-radius:14px; padding:10px 12px; font-size:.98em; font-family:inherit; font-weight:bold; cursor:pointer; color:#333; transition:transform .08s; flex:1 1 30%; text-align:center; }
+.chip:active { transform:scale(.95); }
+.chip.sel { border-color:#4a90d9; background:#e3f2fd; color:#2060b0; }
+
+.feedback { border-radius:14px; padding:11px; margin-bottom:8px; width:100%; max-width:540px; font-size:1em; line-height:1.5; animation:pop .3s; }
+.feedback.ok { background:#e3f7df; border:2px solid #6ab04c; color:#2f5e1e; }
+.feedback.no { background:#fdeaea; border:2px solid #e05252; color:#7a2525; }
+.feedback .fb-learn { display:block; margin-top:7px; padding-top:7px; border-top:1px dashed rgba(0,0,0,.15); font-weight:bold; }
+@keyframes pop { 0%{transform:scale(.94); opacity:0} 100%{transform:scale(1); opacity:1} }
+
+.progress { display:flex; gap:6px; justify-content:center; margin:2px 0 8px; flex-shrink:0; }
+.pdot { width:13px; height:13px; border-radius:50%; background:#e0d5b8; border:2px solid #cbbd97; }
+.pdot.done { background:#4a90d9; border-color:#3a7bc0; }
+
+.bigemoji { font-size:2.8em; text-align:center; margin:4px 0; }
+.title-screen { text-align:center; }
+.title-screen h1 { color:#e76f51; font-size:1.4em; margin:4px 0; }
+.title-screen .sub { color:#666; margin-bottom:10px; font-size:.95em; }
+
+.exam-q { background:#fff9ef; border-radius:12px; padding:10px 12px; margin-bottom:10px; color:#444; font-size:1.02em; }
+.opts { display:flex; flex-direction:column; gap:8px; width:100%; max-width:540px; }
+.opt { border:2px solid #d9cfa8; background:#fffdf7; border-radius:12px; padding:11px 14px; font-size:1.02em; font-family:inherit; cursor:pointer; text-align:left; color:#333; }
+.opt:active { transform:scale(.97); }
+.opt.correct { border-color:#6ab04c; background:#e3f7df; }
+.opt.wrong { border-color:#e05252; background:#fdeaea; }
+.opt:disabled { cursor:default; }
+
+.hint { color:#888; font-size:.85em; text-align:center; margin-top:4px; }
+.badge { display:inline-block; background:#ffd700; color:#7a5c00; border-radius:10px; padding:2px 9px; font-size:.85em; font-weight:bold; margin-left:5px; }
+.dt-link { display:inline-block; background:#1a5c9e; color:#fff; border:none; border-radius:12px; padding:8px 14px; font-weight:bold; font-family:inherit; cursor:pointer; font-size:.95em; text-decoration:none; margin-top:6px; }
+.backrow { width:100%; max-width:540px; margin-bottom:10px; }
+.backrow .btn { background:#888; padding:9px 14px; font-size:.95em; }
+.lesson-item { background:#fff9ef; border:2px solid #f0e0b0; border-radius:12px; padding:10px 12px; margin-bottom:8px; cursor:pointer; transition:transform .08s; }
+.lesson-item:active { transform:scale(.98); }
+.lesson-item b { color:#e76f51; }
+.lesson-item .zh { color:#2a6fb5; }
+.star-row { text-align:center; font-size:1.4em; margin:6px 0; }
+.gift { background:#fff; border:4px solid #e0527a; border-radius:18px; padding:18px; font-size:1.5em; cursor:pointer; text-align:center; user-select:none; width:100%; margin-top:8px; box-shadow:0 4px 14px rgba(224,82,122,.25); }
+@media (max-width:420px){ .grid2{gap:8px} .tile .big{font-size:1.6em} }
+</style>
+</head>
+<body>
+<div id="topbar">
+  <div class="brand" id="brand">🎒 Canossa Learning Park</div>
+  <div class="right">
+    <div class="stats"><span>😊 <b id="happy">50</b></span><span>⭐ <b id="score">0</b></span></div>
+    <button id="langbtn">中/EN</button>
+  </div>
+</div>
+<div id="screen"></div>
+<script src="assets/images.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
