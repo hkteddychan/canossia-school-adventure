@@ -36,7 +36,13 @@ const LANGS = {
     subjectLabel: 'Subject',
     allDone: 'You finished this quiz! Amazing! 🎉',
     tapToLearn: 'Tap each card to learn, then take the quiz!',
-    langBtn: '中/EN'
+    langBtn: '中/EN',
+    daily: 'Daily Challenge',
+    dailySub: '3 quick questions every day!',
+    report: 'Report Card',
+    reportSub: 'My star collection',
+    tutorQuiz: 'DeepTutor Quiz',
+    again: 'Play again',
   },
   zh: {
     title: '天神嘉諾撒學習樂園',
@@ -74,7 +80,13 @@ const LANGS = {
     subjectLabel: '科目',
     allDone: '你完成咗呢個測驗！超棒！🎉',
     tapToLearn: '㩒每張卡學嘢，然後做小測驗！',
-    langBtn: 'EN/中'
+    langBtn: 'EN/中',
+    daily: '每日挑戰',
+    dailySub: '日日答 3 條快題！',
+    report: '成績表',
+    reportSub: '我嘅星星收集冊',
+    tutorQuiz: 'DeepTutor 小測驗',
+    again: '再玩一次',
   }
 };
 
@@ -587,3 +599,24 @@ const LESSONS = {
     ]}
   }
 };
+
+
+// ===== DeepTutor corner data (v3) =====
+const TUTOR = {
+  intro: {
+    en: "DeepTutor is a free AI teacher robot made by HKUDS. It can explain anything you do not understand — maths, English, science — step by step, like a kind big brother! Ask mummy or daddy to open it with you.",
+    zh: "DeepTutor 係 HKUDS 整嘅免費 AI 老師機械人。你有咩唔明——數學、英文、科學——佢都會一步一步解畀你聽，好似一個好有耐性嘅大哥哥！記得同爸爸媽媽一齊開嚟用。"
+  },
+  feats: [
+    { icon:'📖', en:'Explains any topic step by step', zh:'一步一步解釋任何題目' },
+    { icon:'🌏', en:'Speaks English and Chinese', zh:'識講英文同中文' },
+    { icon:'📄', en:'Reads your school PDFs and notes', zh:'讀到你嘅學校筆記' },
+    { icon:'🧠', en:'Makes fun quizzes to help you revise', zh:'出有趣小測驗幫你溫書' },
+    { icon:'🆓', en:'Free and open source', zh:'免費又開源' }
+  ]
+};
+const DT_QUIZ = [
+  { en:'Who made DeepTutor?', zh:'DeepTutor 係邊個整？', opts:[{en:'HKUDS',zh:'HKUDS'},{en:'A panda',zh:'一隻熊貓'},{en:'Miss Chan',zh:'陳老師'},{en:'The postman',zh:'郵差'}], a:0 },
+  { en:'What can DeepTutor do?', zh:'DeepTutor 做到咩？', opts:[{en:'Explain topics step by step',zh:'一步一步解釋題目'},{en:'Cook dinner',zh:'煮飯'},{en:'Fly a plane',zh:'揸飛機'},{en:'Wash dishes',zh:'洗碗'}], a:0 },
+  { en:'How much does DeepTutor cost?', zh:'DeepTutor 幾錢？', opts:[{en:'Free!',zh:'免費！'},{en:'$100',zh:'一百蚊'},{en:'$500',zh:'五百蚊'},{en:'One toy',zh:'一個玩具'}], a:0 }
+];
